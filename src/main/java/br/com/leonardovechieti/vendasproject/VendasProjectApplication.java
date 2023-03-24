@@ -32,8 +32,28 @@ public class VendasProjectApplication {
 			cliente.setNome("Leonardo");
 			repository.save(cliente);
 			System.out.println("Cliente salvo com sucesso");
-//			deletar
-			repository.deleteId(1);
+			System.out.println("Buscando cliente");
+			Cliente clienteBuscado = repository.findById(1).orElseThrow();
+			System.out.println("Cliente buscado com sucesso");
+			System.out.println(clienteBuscado.getNome());
+			System.out.println("Atualizando cliente");
+			clienteBuscado.setNome("Leonardo Vechieti");
+			repository.save(clienteBuscado);
+			System.out.println("Cliente atualizado com sucesso");
+			System.out.println("Buscando cliente");
+			Cliente clienteAtualizado = repository.findById(1).orElseThrow();
+			System.out.println("Cliente buscado com sucesso");
+			System.out.println(clienteAtualizado.getNome());
+			System.out.println("Deletando cliente");
+			repository.delete(clienteAtualizado);
+			System.out.println("Cliente deletado com sucesso");
+			System.out.println("Buscando todos os clientes");
+			Iterable<Cliente> clientes = repository.findAll();
+			System.out.println("Clientes buscados com sucesso");
+			clientes.forEach(c -> System.out.println(c.getNome()));
+
+
+
 
 		};
 	}
