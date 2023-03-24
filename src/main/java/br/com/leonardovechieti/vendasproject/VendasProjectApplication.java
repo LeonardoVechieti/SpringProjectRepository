@@ -9,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +52,16 @@ public class VendasProjectApplication {
 			clientes.forEach(c -> System.out.println(c.getNome()));
 
 
+			//Populando banco de dados
+			Cliente cliente1 = new Cliente();
+			cliente1.setNome("Leonardo");
+			repository.save(cliente1);
+			Cliente cliente2 = new Cliente();
+			cliente2.setNome("Vechieti");
+			repository.save(cliente2);
+			Cliente cliente3 = new Cliente();
+			cliente3.setNome("Leonardo Vechieti");
+			repository.save(cliente3);
 
 
 		};

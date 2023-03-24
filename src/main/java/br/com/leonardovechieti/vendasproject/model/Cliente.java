@@ -1,6 +1,7 @@
 package br.com.leonardovechieti.vendasproject.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "cliente")
@@ -14,7 +15,19 @@ public class Cliente  {
     @Column(name = "nome")
     private String nome;
 
+    @OneToMany (mappedBy = "cliente")
+    private Set<Pedido> pedidos;
+
+
     // Getters and Setters
+    public Set<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
     public Integer getId() {
         return id;
     }
