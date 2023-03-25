@@ -2,6 +2,7 @@ package br.com.leonardovechieti.vendasproject.model;
 
 import javax.persistence.*;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cliente")
@@ -15,6 +16,7 @@ public class Cliente  {
     @Column(name = "nome")
     private String nome;
 
+    @JsonIgnore
     @OneToMany (mappedBy = "cliente")
     private Set<Pedido> pedidos;
 
