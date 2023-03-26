@@ -2,6 +2,8 @@ package br.com.leonardovechieti.vendasproject.controller;
 
 import br.com.leonardovechieti.vendasproject.model.Cliente;
 import br.com.leonardovechieti.vendasproject.repository.ClienteRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +78,20 @@ public class ClienteController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    @GetMapping("/search/")
+    @ResponseBody
+    public ResponseEntity find (Cliente filtro){
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(
+                        ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example example = Example.of(filtro, matcher);
+        List<Cliente> clientes = clienteRepository.findAll(example);
+        return ResponseEntity.ok(clientes);
     }
 }

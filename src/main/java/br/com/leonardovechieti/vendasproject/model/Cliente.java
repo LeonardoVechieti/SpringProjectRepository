@@ -13,15 +13,36 @@ public class Cliente  {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", length = 100)
     private String nome;
+
+    @Column(name = "email", length = 50)
+    private String email;
+
+    @Column(name = "cpf", length = 11)
+    private String cpf;
 
     @JsonIgnore
     @OneToMany (mappedBy = "cliente")
     private Set<Pedido> pedidos;
 
-
     // Getters and Setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public Set<Pedido> getPedidos() {
         return pedidos;
     }
