@@ -3,7 +3,9 @@ package br.com.leonardovechieti.vendasproject.rest.controller;
 import br.com.leonardovechieti.vendasproject.model.Cliente;
 import br.com.leonardovechieti.vendasproject.model.ItemPedido;
 import br.com.leonardovechieti.vendasproject.model.Pedido;
+import br.com.leonardovechieti.vendasproject.model.enums.StatusPedido;
 import br.com.leonardovechieti.vendasproject.repository.PedidoRepository;
+import br.com.leonardovechieti.vendasproject.rest.dto.AtuStatusPedidoDTO;
 import br.com.leonardovechieti.vendasproject.rest.dto.InfoItemPedidoDTO;
 import br.com.leonardovechieti.vendasproject.rest.dto.InfoPedidoDTO;
 import br.com.leonardovechieti.vendasproject.rest.dto.PedidoDTO;
@@ -55,6 +57,7 @@ public class PedidoController {
                 .cpf(pedido.getCliente().getCpf())
                 .nomeCliente(pedido.getCliente().getNome())
                 .total(pedido.getTotal())
+                .status(pedido.getStatus().name())
                 .items(converter(pedido.getItens()))
                 .build();
     }
@@ -71,4 +74,10 @@ public class PedidoController {
         ).collect(Collectors.toList());
     }
 
+    @PatchMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void update(@RequestBody AtuStatusPedidoDTO dto, @PathVariable Integer id) {
+        String status = dto.getNovoStatus();
+        service.atualizaStatus(id, StatusPedido.valueOf(status));
+    }
 }

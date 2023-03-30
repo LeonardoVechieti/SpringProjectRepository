@@ -1,4 +1,5 @@
 package br.com.leonardovechieti.vendasproject.model;
+import br.com.leonardovechieti.vendasproject.model.enums.StatusPedido;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +29,10 @@ public class Pedido {
 
     @Column(name = "total")
     private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedido status;
 
     //Mapeamento de relacionamento de um para muitos.
     @ManyToMany (mappedBy = "pedido")

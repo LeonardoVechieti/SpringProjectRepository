@@ -1,10 +1,12 @@
 package br.com.leonardovechieti.vendasproject.service.impl;
 
+import br.com.leonardovechieti.vendasproject.exception.PedidoNaoEncontradoException;
 import br.com.leonardovechieti.vendasproject.exception.RegraNegocioException;
 import br.com.leonardovechieti.vendasproject.model.Cliente;
 import br.com.leonardovechieti.vendasproject.model.ItemPedido;
 import br.com.leonardovechieti.vendasproject.model.Pedido;
 import br.com.leonardovechieti.vendasproject.model.Produto;
+import br.com.leonardovechieti.vendasproject.model.enums.StatusPedido;
 import br.com.leonardovechieti.vendasproject.repository.ClienteRepository;
 import br.com.leonardovechieti.vendasproject.repository.ItemPedidoRepository;
 import br.com.leonardovechieti.vendasproject.repository.PedidoRepository;
@@ -42,6 +44,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
         pedidoRepository.save(pedido);
@@ -54,6 +57,16 @@ public class PedidoServiceImpl implements PedidoService {
     @Transactional
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return pedidoRepository.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        pedidoRepository.findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return pedidoRepository.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){
