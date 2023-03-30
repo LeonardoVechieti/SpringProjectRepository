@@ -3,9 +3,13 @@ package br.com.leonardovechieti.vendasproject.model;
 import javax.persistence.*;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 @Entity
 @Table(name = "cliente")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cliente  {
 
     @Id
@@ -26,44 +30,4 @@ public class Cliente  {
     @OneToMany (mappedBy = "cliente")
     private Set<Pedido> pedidos;
 
-    // Getters and Setters
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Set<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(Set<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 }

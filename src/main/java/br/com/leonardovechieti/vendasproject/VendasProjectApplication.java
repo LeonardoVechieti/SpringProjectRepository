@@ -1,7 +1,9 @@
 package br.com.leonardovechieti.vendasproject;
 
 import br.com.leonardovechieti.vendasproject.model.Cliente;
+import br.com.leonardovechieti.vendasproject.model.Produto;
 import br.com.leonardovechieti.vendasproject.repository.ClienteRepository;
+import br.com.leonardovechieti.vendasproject.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"br.com.leonardovechieti.vendasproject"})
@@ -24,7 +28,7 @@ public class VendasProjectApplication {
 	}
 
 	@Bean
-	public CommandLineRunner init(@Autowired ClienteRepository repository){
+	public CommandLineRunner init(@Autowired ClienteRepository repository, @Autowired ProdutoRepository produtoRepository){
 		return args -> {
 			System.out.println("Salvando cliente");
 			Cliente cliente = new Cliente();
@@ -62,6 +66,20 @@ public class VendasProjectApplication {
 			Cliente cliente3 = new Cliente();
 			cliente3.setNome("Leonardo Vechieti");
 			repository.save(cliente3);
+			//Produtos
+			Produto produto1 = new Produto();
+			produto1.setNome("Computador");
+			produto1.setPreco(BigDecimal.valueOf(1000));
+			produtoRepository.save(produto1);
+			Produto produto2 = new Produto();
+			produto2.setNome("Mouse");
+			produto2.setPreco(BigDecimal.valueOf(100));
+			produtoRepository.save(produto2);
+			Produto produto3 = new Produto();
+			produto3.setNome("Teclado");
+			produto3.setPreco(BigDecimal.valueOf(200));
+			produtoRepository.save(produto3);
+
 
 
 		};
