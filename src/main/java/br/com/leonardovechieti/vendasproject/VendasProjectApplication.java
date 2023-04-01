@@ -33,6 +33,8 @@ public class VendasProjectApplication {
 			System.out.println("Salvando cliente");
 			Cliente cliente = new Cliente();
 			cliente.setNome("Leonardo");
+			cliente.setEmail("leonardo@outllok.com");
+			cliente.setCpf("02762312019");
 			repository.save(cliente);
 			System.out.println("Cliente salvo com sucesso");
 			System.out.println("Buscando cliente");
@@ -50,10 +52,10 @@ public class VendasProjectApplication {
 			System.out.println("Deletando cliente");
 			repository.delete(clienteAtualizado);
 			System.out.println("Cliente deletado com sucesso");
-			System.out.println("Buscando todos os clientes");
-			Iterable<Cliente> clientes = repository.findAll();
-			System.out.println("Clientes buscados com sucesso");
-			clientes.forEach(c -> System.out.println(c.getNome()));
+//			System.out.println("Buscando todos os clientes");
+//			Iterable<Cliente> clientes = repository.findAll();
+//			System.out.println("Clientes buscados com sucesso");
+//			clientes.forEach(c -> System.out.println(c.getNome()));
 
 
 			//Populando banco de dados
