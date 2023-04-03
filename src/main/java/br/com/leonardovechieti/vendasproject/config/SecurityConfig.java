@@ -1,7 +1,10 @@
 package br.com.leonardovechieti.vendasproject.config;
 
+import br.com.leonardovechieti.vendasproject.service.impl.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,37 +14,43 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @EnableWebSecurity
-public class SecurityConfig  extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder())
-                .withUser("admin")
-                .password(passwordEncoder().encode("1234"))
-                .roles("USER", "ADMIN");
+        auth
+                .userDetailsService(usuarioService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure( HttpSecurity http ) throws Exception {
         http
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/clientes/**")
-                .hasRole("USER")
-                .antMatchers("/pedidos/**")
-                .hasRole("USER")
-                .antMatchers("/produtos/**")
-                .hasRole("ADMIN")
+                .csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/clientes/**")
+                        .hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/pedidos/**")
+                        .hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/produtos/**")
+                        .hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST, "/usuarios/**")
+                        .permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .httpBasic();
-//                .formLogin();
+                    .httpBasic();
+        ;
     }
 
-
 }
+
+
+
